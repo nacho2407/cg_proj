@@ -54,6 +54,10 @@ public class CameraSwitch : MonoBehaviour
 }
 ```
 
+- 혼합형 예제 컨셉 아트
+![혼합형 예제 1](https://github.com/nacho2407/cg_term_project/blob/main/etc/combi_example_1.png?raw=true)
+![혼합형 예제 2](https://github.com/nacho2407/cg_term_project/blob/main/etc/combi_example_2.png?raw=true)
+
 
 목표 서류를 하나로 고정할 지, 3~5개 정도의 여러 서류들을 모아서 가져오는 것으로 하는 것이 좋을 지 결정해야 할 것 같습니다. 만약 여러개의 서류를 가져오는 것으로 하면 탄환 개수처럼 플레이어 화면에 현재 모은 서류 개수를 표현해주는 것이 좋겠습니다.
 
