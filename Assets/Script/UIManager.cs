@@ -7,14 +7,19 @@ public class UIManager : MonoBehaviour
     public GameObject player;
     public GameObject playerCamera;
     public GameObject gameOverPanel;
+    public GameObject ClearPanel;
     public Button restartButton;
     public Button quitButton;
+    public Button restartButton2;
+    public Button quitButton2;
 
     private void Start()
     {
         gameOverPanel.SetActive(false);
         restartButton.onClick.AddListener(RestartGame);
         quitButton.onClick.AddListener(QuitGame);
+        restartButton2.onClick.AddListener(RestartGame);
+        quitButton2.onClick.AddListener(QuitGame);
     }
 
     public void GameOver()
@@ -24,6 +29,14 @@ public class UIManager : MonoBehaviour
         gameOverPanel.SetActive(true);
         Time.timeScale = 0f; // 게임 일시정지
     }
+    public void Clear()
+    {
+        player.SetActive(false);
+        playerCamera.SetActive(false);
+        ClearPanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
 
     private void RestartGame()
     {
