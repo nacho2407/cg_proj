@@ -82,7 +82,7 @@ Unity는 **Built-in Renderer Pipeline**, **URP(Universal Render Pipeline)**, **H
 
 '**Edit > Render Pipeline > Upgrade Project Materials**'를 통해 Built-in, URP, HDRP 간 변환이 가능은 하나 완전하지 않을 수 있음.
 
-이번 프로젝트에서는 범용적으로 사용되는 URP를 기준으로 제작할 예정이나 에셋 변환 후 크게 오류가 없음을 확인했다면 HDRP도 활용 가능. 에셋 변환 등 사전 작업을 최소화하기 위해 에셋 선택 시 사용중인 Unity의 버전과 렌더링 파이프 지원 여부를 확인하는 것이 좋음.
+이번 프로젝트에서는 범용적으로 사용되는 URP를 기준으로 제작할 예정이나 에셋 변환 후 크게 오류가 없음을 확인했다면 HDRP도 활용 가능. 에셋 변환 등 사전 작업을 최소화하기 위해 에셋 선택 시 사용중인 Unity의 버전과 렌더링 파이프라인 지원 여부를 확인하는 것이 좋음.
 
 
 ### git 협업 관련
