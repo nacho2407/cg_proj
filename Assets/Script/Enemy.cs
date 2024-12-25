@@ -9,9 +9,15 @@ public class Enemy : MonoBehaviour
     public float detectionRange = 15f;
     protected Transform player;
 
+    private NavMeshAgent agentEnemy;
+    protected bool isCCTVon = false;
+    protected CCTV detectedCCTV;
+
     protected virtual void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        agentEnemy = GetComponent<NavMeshAgent>();
     }
 
     public virtual void TakeDamage(float amount)
@@ -75,6 +81,25 @@ public class Enemy : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public virtual void MoveTo(Vector3 targetPosition)
+    {
+        if (agentEnemy != null)
+        {
+            //Debug.Log(targetPosition);
+            //Debug.Log(agentEnemy.transform);
+            agentEnemy.SetDestination(player.position);
+            
+
+        }
+    }
+
+ 
+
+    public void SetDetectedCCTV(CCTV cctv)
+    {
+        detectedCCTV = cctv;
     }
 
 
