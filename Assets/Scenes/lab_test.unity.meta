@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Enemy/PA_Warrior.unitypackage.meta
+guid: 8db1eb7698ebccd4c89e0c0e1a45aa19
+========
 guid: c5ec4b34a543833438b5b1312c6c4b67
+>>>>>>>> 324d8b98345d7994fd510d77e82425bfd253e663:Assets/Scenes/lab_test.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
