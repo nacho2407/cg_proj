@@ -99,7 +99,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("object hit1!!!!");
+        
         if (other.CompareTag("Enemy"))
         {
             Enemy enemy = other.GetComponent<Enemy>();
@@ -109,7 +109,7 @@ public class Bullet : MonoBehaviour
             }
             //Destroy(gameObject);
         }
-        //Debug.Log("object hit!!!!");
+        Debug.Log("object hit!!!!");
         Destroy(gameObject);
     }
 
