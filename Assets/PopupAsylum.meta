@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/PopupAsylum.meta
 guid: 8ab904fe92e73e34c886198a99f3d9a9
 folderAsset: yes
+========
+guid: 52854fa79f0d7114299bfedb35875a13
+>>>>>>>> 324d8b98345d7994fd510d77e82425bfd253e663:Assets/Drone/Scene/Demo Scene - Copy.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
