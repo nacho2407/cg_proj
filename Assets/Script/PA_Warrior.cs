@@ -10,6 +10,9 @@ public class PA_Warrior : Enemy
     private NavMeshAgent agent;
     private Animator animator;
 
+    
+
+    
     protected override void Start()
     {
         base.Start();
@@ -22,6 +25,7 @@ public class PA_Warrior : Enemy
         //Debug.Log(CanSeePlayer());
         if (CanSeePlayer())
         {
+            isCCTVon = false;
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
             if (distanceToPlayer > attackRange)
@@ -39,7 +43,16 @@ public class PA_Warrior : Enemy
         }
         else
         {
-            Idle();
+            if (detectedCCTV != null)
+                //if (isCCTVon)
+            {
+                MoveTo(detectedCCTV.transform.position);
+            }
+            else
+            {
+                Idle();
+                
+            }
         }
 
         UpdateAnimations();
@@ -53,9 +66,8 @@ public class PA_Warrior : Enemy
 
     private void AttackPlayer()
     {
-        agent.SetDestination(transform.position); // Stop moving while attacking
+        agent.SetDestination(transform.position); 
         animator.SetBool("HasTargetInrange", true);
-        // Implement the actual attack logic here, e.g., reduce player health
     }
 
     private void Idle()
@@ -84,7 +96,27 @@ public class PA_Warrior : Enemy
     {
         base.Die();
         animator.SetTrigger("Die");
-        agent.isStopped = true; // Stop movement
+        agent.isStopped = true; 
         // Add any additional cleanup or effects for death
     }
+
+    public override void MoveTo(Vector3 targetPosition)
+    {
+        //base.MoveTo(targetPosition); 
+        //Debug.Log("Overrided MoveTo");
+        //Debug.Log(targetPosition);
+        agent.SetDestination(targetPosition);
+        animator.SetBool("HasTargetInrange", false);
+        isCCTVon = true;
+    }
+    private void MoveToDetectedCCTV()
+    {
+        if (detectedCCTV != null)
+        {
+            MoveTo(detectedCCTV.transform.position);
+        }
+    }
+
+
+
 }
