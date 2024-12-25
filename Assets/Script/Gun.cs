@@ -35,7 +35,7 @@ public class Gun : MonoBehaviour
     public void Reload(int amount)
     {
         currentBullets = Mathf.Min(currentBullets + amount, maxBullets);
-        // UI æ˜µ•¿Ã∆Æ
+        // UI ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ∆Æ
         UpdateBulletCountUI();
     }
 
@@ -62,8 +62,12 @@ public class Gun : MonoBehaviour
 
         SphereCollider sc = bullet.AddComponent<SphereCollider>();
 
-        sc.isTrigger = true;
+        sc.isTrigger = false; // ÏõêÎûò true
         sc.radius = 0.2f;
+
+        Rigidbody rb = bullet.AddComponent<Rigidbody>();
+        rb.isKinematic = true; // OnCollisionEnterÎ•º ÏúÑÌïú ÏÑ§Ï†ï
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
         Destroy(bullet, bulletLifetime);
     }
@@ -89,11 +93,13 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         transform.Translate(direction * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("object hit1!!!!");
         if (other.CompareTag("Enemy"))
         {
             Enemy enemy = other.GetComponent<Enemy>();
@@ -101,9 +107,28 @@ public class Bullet : MonoBehaviour
             {
                 enemy.TakeDamage(damage);
             }
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
-        Debug.Log("object hit!!!!");
+        //Debug.Log("object hit!!!!");
+        Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("object hit2!!!!");
+        GameObject hitObject = collision.gameObject;
+
+        
+        if (hitObject.CompareTag("Enemy"))
+        {
+            
+            Enemy enemy = hitObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+            }
+        }
+
         Destroy(this.gameObject);
     }
 }

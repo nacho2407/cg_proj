@@ -84,7 +84,7 @@ public class CCTV : Enemy
         Enemy closestMonster = FindClosestMonster();
         if (closestMonster != null)
         {
-            Debug.Log(closestMonster);
+            //Debug.Log(closestMonster);
             closestMonster.SetDetectedCCTV(this); 
         }
     }
