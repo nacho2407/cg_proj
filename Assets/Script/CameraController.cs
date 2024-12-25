@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-public class CameraController : MonoBehaviour
+public class CameraController : MonoBehaviour, IDamageable
 {
     public float minFarPlane = 0f;
     public float maxFarPlane = 100f;
@@ -29,7 +29,7 @@ public class CameraController : MonoBehaviour
         UpdateCameraClipping();
 
         UpdateHealthUI();
-        // Far PlaneÀÌ 0 ÀÌÇÏ°¡ µÇ¸é °ÔÀÓ Á¾·á
+        // Far Planeï¿½ï¿½ 0 ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (currentFarPlane <= 0)
         {
             uiManager.GameOver();
@@ -65,6 +65,15 @@ public class CameraController : MonoBehaviour
     public void IncreaseFarPlane(float amount)
     {
         currentFarPlane = Mathf.Min(currentFarPlane + amount, maxFarPlane);
+    }
+
+    public void OnDamage(float damage, Vector3 hitPoint, Vector3 hitDirection)
+    {
+
+
+        DecreaseViewOnDamage();
+
+
     }
 
 }

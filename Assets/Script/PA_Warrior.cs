@@ -4,9 +4,12 @@ using UnityEngine.AI;
 
 public class PA_Warrior : Enemy
 {
-    public float attackRange = 2f;
+    public float attackRange = 10f;
     public float attackCooldown = 1.5f;
     private float nextAttackTime;
+
+    public EnemyGunRayCast gun;
+    public Transform gunPivot;
 
     private NavMeshAgent agent;
     private Animator animator;
@@ -23,6 +26,15 @@ public class PA_Warrior : Enemy
         health += pa_warriorHealth;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+    }
+
+    private void OnEnable()
+    {
+        gun.gameObject.SetActive(true);
+    }
+    private void OnDisable()
+    {
+        gun.gameObject.SetActive(false);
     }
 
     void Update()
@@ -71,6 +83,7 @@ public class PA_Warrior : Enemy
 
     private void AttackPlayer()
     {
+        gun.Fire();
         agent.SetDestination(transform.position); 
         animator.SetBool("HasTargetInrange", true);
     }
@@ -113,7 +126,7 @@ public class PA_Warrior : Enemy
         {
             col.enabled = false;
         }
-
+        gun.gameObject.SetActive(false);
         StartCoroutine(HandleDeath());
 
     }

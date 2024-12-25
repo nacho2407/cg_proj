@@ -9900,6 +9900,10 @@ PrefabInstance:
       propertyPath: m_CullingMask.m_Bits
       value: 55
       objectReference: {fileID: 0}
+    - target: {fileID: 8823821299627484331, guid: 010fef1d62c588941b0d71fb17d7e7da, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8926740083997824471, guid: 010fef1d62c588941b0d71fb17d7e7da, type: 3}
       propertyPath: FPS
       value: 0
@@ -13571,7 +13575,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1788030645}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1788030647
 Camera:
   m_ObjectHideFlags: 0
