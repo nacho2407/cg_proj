@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyGunRayCast : MonoBehaviour
 {
-
     public Transform fireTransform; 
 
     public ParticleSystem muzzleFlashEffect; 
@@ -31,65 +30,67 @@ public class EnemyGunRayCast : MonoBehaviour
         bulletLineRenderer.enabled = false;
     }
 
-    public void Fire()
+    public void Fire(Vector3 player_last_position)
     {
 
         if (Time.time >= lastFireTime + timeBetFire)
         {
             lastFireTime = Time.time;
-            Shot();
+            Shot(player_last_position);
         }
 
     }
 
-    private void Shot()
+    private void Shot(Vector3 player_last_position)
     {
         RaycastHit hit;
-
         Vector3 hitPosition = Vector3.zero;
-        
-        if (Physics.Raycast(fireTransform.position, fireTransform.forward, out hit, fireDistance))
+
+        // 플레이어의 마지막 위치를 사용해 발사 방향 계산
+        Vector3 directionToPlayer = player_last_position - fireTransform.position;
+        directionToPlayer.Normalize();  // 방향 벡터 정규화
+
+        // 플레이어의 위치를 향해 발사
+        if (Physics.Raycast(fireTransform.position, directionToPlayer, out hit, fireDistance))
         {
-            
+            hitPosition = hit.point;
             if (hit.collider.CompareTag("Player"))
             {
                 if (CameraController.Instance != null)
                 {
                     CameraController.Instance.DecreaseViewOnDamage();
                 }
-
-
             }
         }
-
         else
         {
-            hitPosition = fireTransform.position + fireTransform.forward * fireDistance;
+            // 플레이어가 범위 내에 없다면 최대 거리까지 발사
+            hitPosition = fireTransform.position + directionToPlayer * fireDistance;
         }
 
-        StartCoroutine(ShotEffect(hitPosition));
-
+        // 총구가 활성화되어 있는지 확인 후 효과 실행
+        if (gameObject.activeInHierarchy)
+        {
+            ShotEffect(hitPosition);
+        }
     }
 
-    private IEnumerator ShotEffect(Vector3 hitPosition)
+    private void ShotEffect(Vector3 hitPosition)
     {
-
         muzzleFlashEffect.Play();
         shellEjectEffect.Play();
-
         gunAudioPlayer.PlayOneShot(shotClip);
 
         bulletLineRenderer.SetPosition(0, fireTransform.position);
         bulletLineRenderer.SetPosition(1, hitPosition);
-
-
-        // 라인 렌더러를 활성화하여 총알 궤적을 그린다
         bulletLineRenderer.enabled = true;
 
-        // 0.03초 동안 잠시 처리를 대기
-        yield return new WaitForSeconds(0.03f);
+        // Invoke를 사용하여 총알 궤적을 지연 삭제
+        Invoke("DisableBulletLine", 0.03f);
+    }
 
-        // 라인 렌더러를 비활성화하여 총알 궤적을 지운다
+    private void DisableBulletLine()
+    {
         bulletLineRenderer.enabled = false;
     }
 
