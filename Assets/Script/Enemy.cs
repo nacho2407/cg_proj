@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public float health = 100f;
+    public float health = 10f;
     public float viewAngle = 67.5f;
     public float detectionRange = 15f;
     protected Transform player;
@@ -57,8 +57,8 @@ public class Enemy : MonoBehaviour
                     // Debug.Log("Player Detected!");
                     player_last_position = player.position; // 마지막으로 확인한 위치 저장
                     return true;
-                } else {
-                    Debug.Log($"Hit Object: {hit.collider.name}");
+                // } else {
+                    // Debug.Log($"Hit Object: {hit.collider.name}");
                 }
             }
         }

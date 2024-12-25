@@ -29,8 +29,7 @@ public class CameraController : MonoBehaviour, IDamageable
         UpdateCameraClipping();
 
         UpdateHealthUI();
-        // Far Plane�� 0 ���ϰ� �Ǹ� ���� ����
-        if (currentFarPlane <= 0)
+        if (currentFarPlane <= minFarPlane)
         {
             uiManager.GameOver();
         }
