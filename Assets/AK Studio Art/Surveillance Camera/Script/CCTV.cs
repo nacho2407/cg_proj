@@ -38,16 +38,13 @@ public class CCTV : Enemy
         //    }
         //}
 
-        
-
         if (CanSeePlayer())
         {
-            DetectPlayer();
+            // DetectPlayer();
             Enemy closestMonster = FindClosestMonster();
             if (closestMonster != null)
             {
-              
-                closestMonster.MoveTo(transform.position); 
+                closestMonster.MoveTo(player_last_position); 
             }
         }
     }
@@ -72,11 +69,34 @@ public class CCTV : Enemy
         return closestMonster;
     }
 
-    // Debug
+    // 탐지 범위를 원뿔 형태로 표시합니다.
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+
+        Vector3 adjustedOrigin = transform.position + transform.forward * 0.3f;
+
+        DrawCone(adjustedOrigin, transform.forward, viewAngle, detectionRange);
+    }
+
+    private void DrawCone(Vector3 origin, Vector3 forward, float angle, float range, int segments = 30)
+    {
+        forward.Normalize();
+
+        Vector3 initialDirection = Quaternion.Euler(0, -angle / 2, 0) * forward;
+
+        // Loop to draw the cone's edges
+        for (int i = 0; i < segments; i++)
+        {
+            Vector3 currentDirection = Quaternion.Euler(0, (angle / segments) * i, 0) * initialDirection;
+            Vector3 nextDirection = Quaternion.Euler(0, (angle / segments) * (i + 1), 0) * initialDirection;
+
+            Vector3 currentPoint = origin + currentDirection * range;
+            Vector3 nextPoint = origin + nextDirection * range;
+
+            Gizmos.DrawLine(origin, currentPoint);
+            Gizmos.DrawLine(currentPoint, nextPoint);
+        }
     }
 
     public void DetectPlayer()
@@ -84,7 +104,7 @@ public class CCTV : Enemy
         Enemy closestMonster = FindClosestMonster();
         if (closestMonster != null)
         {
-            //Debug.Log(closestMonster);
+            Debug.Log(closestMonster);
             closestMonster.SetDetectedCCTV(this); 
         }
     }
