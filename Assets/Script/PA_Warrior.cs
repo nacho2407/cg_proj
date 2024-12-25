@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,12 +11,16 @@ public class PA_Warrior : Enemy
     private NavMeshAgent agent;
     private Animator animator;
 
+    // 추가 체력
+    public float pa_warriorHealth = 20f;
+
     
 
     
     protected override void Start()
     {
         base.Start();
+        health += pa_warriorHealth;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
     }
@@ -92,12 +97,31 @@ public class PA_Warrior : Enemy
         }
     }
 
+    public override void TakeDamage(float amount)
+    {
+        base.TakeDamage(amount);
+    }
+
     protected override void Die()
     {
-        base.Die();
+        //base.Die();
         animator.SetTrigger("Die");
-        agent.isStopped = true; 
-        // Add any additional cleanup or effects for death
+        agent.isStopped = true;
+
+        Collider[] colliders = GetComponents<Collider>();
+        foreach (Collider col in colliders)
+        {
+            col.enabled = false;
+        }
+
+        StartCoroutine(HandleDeath());
+
+    }
+
+    private IEnumerator HandleDeath()
+    {
+        yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
     }
 
     public override void MoveTo(Vector3 targetPosition)
