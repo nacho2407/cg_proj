@@ -15,8 +15,8 @@ public class PA_Warrior : Enemy
     public float maxAttackAngle = 67.5f; // 공격 가능한 각도 (도)
 
     // Idle 상태 이면 원래 위치로 돌아가도록
-    public Vector3 initial_position;
-    public Vector3 initial_rotation;
+    private Vector3 initial_position;
+    private Quaternion initial_rotation;
 
     private NavMeshAgent agent;
     private Animator animator;
@@ -30,6 +30,9 @@ public class PA_Warrior : Enemy
         health += pa_warriorHealth;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+
+        initial_position = transform.position;
+        initial_rotation = transform.rotation;
     }
 
     private void OnEnable()
@@ -73,14 +76,19 @@ public class PA_Warrior : Enemy
         }
         else
         {
-            if (detectedCCTV != null)
-            {
-                MoveTo(detectedCCTV.transform.position);
-            }
-            else
-            {
-                Idle();
-            }
+            // if (detectedCCTV != null)
+            // {
+            //     MoveTo(detectedCCTV.transform.position);
+            // }
+            // else
+            // {
+            //     Idle();
+            // }
+
+            // CCTV가 확인하면 CCTV가 바로 가장 가까운 경비원 MoveTo를 호출함.
+            
+            if(transform.position != initial_position)
+                agent.SetDestination(initial_position);
         }
 
         UpdateAnimations();
@@ -115,24 +123,9 @@ public class PA_Warrior : Enemy
 
     private void Idle()
     {
-        // Idle 상태로 돌아가기 전에 초기 위치로 이동
-        agent.SetDestination(initial_position);
-        // animator.SetFloat("position_x", 0);
-        // animator.SetFloat("position_y", 0);
-        
-        // // 초기 위치에 도달한 후 회전 시작
-        // if (Vector3.Distance(transform.position, initial_position) < 0.5f)
-        // {
-        //     // 회전 (EulerAngles로 초기 회전값을 설정)
-        //     Quaternion targetRotation = Quaternion.Euler(initial_rotation);
-        //     transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, maxRotationSpeed * Time.deltaTime);
-
-        //     초기 회전값에 도달하면 Idle 상태로 전환
-        //     if (Quaternion.Angle(transform.rotation, targetRotation) < 1f)
-        //     {
-        //         animator.SetBool("HasTargetInrange", false);
-        //     }
-        // }
+        agent.SetDestination(transform.position);
+        animator.SetFloat("position_x", 0);
+        animator.SetFloat("position_y", 0);
     }
 
     private void UpdateAnimations()
@@ -220,6 +213,15 @@ public class PA_Warrior : Enemy
 
             Gizmos.DrawLine(origin, currentPoint);
             Gizmos.DrawLine(currentPoint, nextPoint);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        // 트리거 작동 시 데미지를 입히기
+        if (other.CompareTag("Player")) // Player 태그를 가진 오브젝트에 반응
+        {
+            TakeDamage(10f); // 10만큼의 데미지
         }
     }
 }
